@@ -156,7 +156,7 @@ def init_netcdf(outfile, time_size=None, range_size=None, sweep_size=None, strin
 
 def main(infiles, outloc=".", file_type="ppi"):
     if file_type not in ["rhi","ppi"]:
-        msg = "Invalid file type - must be one of 'ppi' or 'rhi'"
+        msg = "Invalid file_type - must be one of 'ppi' or 'rhi'"
         raise ValueError(msg)
     name_platform_date = "_".join(infiles[0].split("/")[-1].split("_")[:3])
     version = ".".join(infiles[0].split("_")[-1].split(".")[:-1])

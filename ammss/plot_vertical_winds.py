@@ -20,6 +20,7 @@ def set_major_minor_date_ticks(ax):
 
 
 def plot_vertical_winds(input_files, output_loc=".", only_good_data=False):
+    name_platform_date = "_".join(input_files[0].split("/")[-1].split("_")[:3])
     nc = Dataset(input_files[0])
     times = np.empty((0))
     ranges = np.empty((0, nc.dimensions['index_of_range'].size))
@@ -69,7 +70,7 @@ def plot_vertical_winds(input_files, output_loc=".", only_good_data=False):
     cbar.ax.set_ylabel("Wind speed (m s-1)")
 
 
-    plt.savefig(f"{output_loc}/ncas-lidar-dop-1_vertical-wind.png")
+    plt.savefig(f"{output_loc}/{name_platform_date}_vertical-wind.png")
     #plt.show()
     plt.close()
 

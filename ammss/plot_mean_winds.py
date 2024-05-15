@@ -5,6 +5,14 @@ import datetime as dt
 import numpy as np
 import sys
 
+# matplotlib options, set as None for default values
+VMIN=None
+VMAX=None
+CMAP=None
+
+# where to save plots
+OUTPUT_LOC="."
+
 
 def set_major_minor_date_ticks(ax):
     ax.xaxis.set_minor_locator(mdates.HourLocator(byhour=range(0,24,2)))
@@ -15,6 +23,7 @@ def set_major_minor_date_ticks(ax):
 
 
 def plot_wind_speed_and_direction(input_file, output_loc=".", barb_interval=5):
+    name_platform_date = "_".join(input_file.split("/")[-1].split("_")[:3])
     nc = Dataset(input_file)
 
     wsp = nc["wind_speed"][:]
@@ -40,7 +49,7 @@ def plot_wind_speed_and_direction(input_file, output_loc=".", barb_interval=5):
     fig.set_facecolor("white")
     ax = fig.add_subplot(111)
 
-    pc = ax.pcolormesh(x,y,wsp.T)
+    pc = ax.pcolormesh(x,y,wsp.T,vmin=VMIN,vmax=VMAX,cmap=CMAP)
 
     set_major_minor_date_ticks(ax)
 
@@ -61,10 +70,10 @@ def plot_wind_speed_and_direction(input_file, output_loc=".", barb_interval=5):
         v[::barb_interval,::barb_interval].T,
         length=7,
     )
-    plt.savefig(f"{output_loc}/ncas-lidar-dop-1_wind-speed-and-direction.png")
+    plt.savefig(f"{output_loc}/{name_platform_date}_wind-speed-and-direction.png")
     #plt.show()
     plt.close()
 
 if __name__ == "__main__":
     infile = sys.argv[1]
-    plot_wind_speed_and_direction(infile)
+    plot_wind_speed_and_direction(infile, output_loc=OUTPUT_LOC)
